@@ -25,6 +25,7 @@ public class Jcomp {
     private static void runFile(String path) throws Exception{
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
+        if (hadError) System.exit(65);
     }
 
     private static void runPrompt() throws IOException{
