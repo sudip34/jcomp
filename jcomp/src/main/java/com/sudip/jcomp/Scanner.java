@@ -173,6 +173,7 @@ public class Scanner {
         keywords.put("fun", TokenType.FUN);
         keywords.put("if", TokenType.IF);
         keywords.put("or", TokenType.OR);
+        keywords.put("null", TokenType.NIL);
         keywords.put("print", TokenType.PRINT);
         keywords.put("return", TokenType.RETURN);
         keywords.put("super", TokenType.SUPER);
