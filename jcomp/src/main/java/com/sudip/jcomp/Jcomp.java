@@ -9,11 +9,14 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Jcomp {
+    private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
+    static boolean hadRuntimeError = false;
     public static void main(String[] args) throws Exception {
         if(args.length>1){
             System.out.println("Usage: Jcomp [script]");
-            if (hadError)System.exit(64);
+            if (hadError) System.exit(64);
+            if (hadRuntimeError) System.exit(70);
         } else if (args.length == 1) {
             runFile(args[0]);
         } else {
@@ -43,6 +46,16 @@ public class Jcomp {
     private static void run(String source) {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
+
+        //Parsing Expression print-ast
+        Parser parser = new Parser(tokens);
+        Expr expressions = parser.parse();
+
+        //stop if there was an syntax error
+        if (hadError) return;
+
+        interpreter.interpret(expressions);
+//        System.out.println(new AstPrinter().print(expressions));
     }
 
 
@@ -71,6 +84,7 @@ public class Jcomp {
     static void runtimeError(RuntimeError error) {
         System.err.println(error.getMessage() +
                 "\n[line " + error.token.line +"]");
+        hadRuntimeError = true;
     }
 
 }

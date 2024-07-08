@@ -14,6 +14,15 @@ public class Parser {
     Parser(List<Token> tokens) {
         this.tokens = tokens;
     }
+// initial method parse() to kick of parsing
+//    we will revisit the method when we add statement later
+    Expr parse() {
+        try{
+            return expression();
+        } catch (ParseError error) {
+            return null;
+        }
+    }
 
     private Expr expression() {
         return equality();
