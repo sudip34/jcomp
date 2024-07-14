@@ -1,5 +1,6 @@
 package com.sudip.jcomp;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,14 +48,15 @@ public class Jcomp {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        //Parsing Expression print-ast
+//        //Parsing Expression print-ast
         Parser parser = new Parser(tokens);
-        Expr expressions = parser.parse();
-
+//        Expr expressions = parser.parse();
+        List<Stmt> statements = parser.parse();
         //stop if there was an syntax error
         if (hadError) return;
 
-        interpreter.interpret(expressions);
+//        interpreter.interpret(expressions);
+        interpreter.interpret(statements);
 //        System.out.println(new AstPrinter().print(expressions));
     }
 

@@ -3,6 +3,7 @@ package com.sudip.tool;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 public class GenerateAstRecord {
@@ -29,6 +30,10 @@ public class GenerateAstRecord {
 
                 "Unary    : Token operator, ExprI right",
                 "Variable : Token name"
+        ));
+        defineAst(outputDir, "Stmt", Arrays.asList(
+                "Expression : Expr expression",
+                "Print      : Expr expression"
         ));
     }
 

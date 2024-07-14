@@ -1,14 +1,29 @@
 package com.sudip.jcomp;
 
-public class Interpreter implements Expr.Visitor<Object>{
+import java.util.List;
 
-    void interpret(Expr expression){
-        try{
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
-        }catch (RuntimeError error) {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>{
+
+//    void interpret(Expr expression){
+//        try{
+//            Object value = evaluate(expression);
+//            System.out.println(stringify(value));
+//        }catch (RuntimeError error) {
+//            Jcomp.runtimeError(error);
+//        }
+//    }
+    void interpret(List<Stmt> statements){
+        try {
+            for (Stmt statement: statements) {
+                execute(statement);
+            }
+        }catch (RuntimeError error){
             Jcomp.runtimeError(error);
         }
+    }
+
+    private void execute(Stmt stmt){
+        stmt.accept(this);
     }
 
     @Override
@@ -160,4 +175,51 @@ public class Interpreter implements Expr.Visitor<Object>{
         return a.equals(b);
     }
 
+    @Override
+    public Object visitBlockStmt(Stmt.Block stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitClassStmt(Stmt.Class stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitExpressionStmt(Stmt.Expression stmt) {
+        evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Object visitFunctionStmt(Stmt.Function stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitIfStmt(Stmt.If stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitPrintStmt(Stmt.Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Object visitReturnStmt(Stmt.Return stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitVarStmt(Stmt.Var stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitWhileStmt(Stmt.While stmt) {
+        return null;
+    }
 }
