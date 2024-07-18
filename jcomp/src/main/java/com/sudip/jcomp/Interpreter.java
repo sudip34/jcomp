@@ -2,7 +2,8 @@ package com.sudip.jcomp;
 
 import java.util.List;
 
-public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>{
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
+    private Environment environment = new Environment();
 
 //    void interpret(Expr expression){
 //        try{
@@ -27,7 +28,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>{
     }
 
     @Override
-    public Object visitAssignExpr(Expr.Assign expr) {
+    public Object visitAssaignExpr(Expr.Assign expr) {
         return null;
     }
 
@@ -131,7 +132,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>{
 
     @Override
     public Object visitVariableExpr(Expr.Variable expr) {
-        return null;
+        return environment.get(expr.name);
     }
 
 
@@ -176,50 +177,56 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object>{
     }
 
     @Override
-    public Object visitBlockStmt(Stmt.Block stmt) {
+    public Void visitBlockStmt(Stmt.Block stmt) {
         return null;
     }
 
     @Override
-    public Object visitClassStmt(Stmt.Class stmt) {
+    public Void visitClassStmt(Stmt.Class stmt) {
         return null;
     }
 
     @Override
-    public Object visitExpressionStmt(Stmt.Expression stmt) {
+    public Void visitExpressionStmt(Stmt.Expression stmt) {
         evaluate(stmt.expression);
         return null;
     }
 
     @Override
-    public Object visitFunctionStmt(Stmt.Function stmt) {
+    public Void visitFunctionStmt(Stmt.Function stmt) {
         return null;
     }
 
     @Override
-    public Object visitIfStmt(Stmt.If stmt) {
+    public Void visitIfStmt(Stmt.If stmt) {
         return null;
     }
 
     @Override
-    public Object visitPrintStmt(Stmt.Print stmt) {
+    public Void visitPrintStmt(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
         return null;
     }
 
     @Override
-    public Object visitReturnStmt(Stmt.Return stmt) {
+    public Void visitReturnStmt(Stmt.Return stmt) {
         return null;
     }
 
     @Override
-    public Object visitVarStmt(Stmt.Var stmt) {
+    public Void visitVarStmt(Stmt.Var stmt) {
+        Object value = null;
+        if (stmt.initializer != null) {
+            value = evaluate(stmt.initializer);
+        }
+
+        environment.define(stmt.name.lexeme, value);
         return null;
     }
 
     @Override
-    public Object visitWhileStmt(Stmt.While stmt) {
+    public Void visitWhileStmt(Stmt.While stmt) {
         return null;
     }
 }
